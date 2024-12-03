@@ -1,0 +1,10 @@
+resolver: lts-22.43
+
+packages:
+  - diagram
+
+extra-deps:
+  - github: pilif0/codegen-ProcessComposition
+    commit: '7aebf03417265108137a8e97b1f65dbc42dce92e'
+    subdirs:
+    - haskell/isabelle

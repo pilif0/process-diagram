@@ -1,0 +1,28 @@
+name: process-composition-diagram
+version: 0.1.0.0
+github: pilif0/process-diagram
+license: Apache-2.0
+author: Filip Smola
+category: Library
+
+dependencies:
+  - base >= 4.7 && < 5
+  - process-composition
+  - diagrams-lib >=1.4 && <1.5
+  - diagrams-svg >=1.4 && <1.5
+
+executables:
+  examples:
+    source-dirs: examples
+    main: Main.hs
+    dependencies:
+      - process-composition-diagram
+
+library:
+  source-dirs: src
+  dependencies:
+    - containers
+    - colour
+    - diagrams-core >=1.5 && <1.6
+    - diagrams-contrib >=1.4 && <1.5
+    - SVGFonts >1.8 && <1.9

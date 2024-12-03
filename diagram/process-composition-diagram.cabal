@@ -1,0 +1,56 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.2.
+--
+-- see: https://github.com/sol/hpack
+
+name:           process-composition-diagram
+version:        0.1.0.0
+category:       Library
+homepage:       https://github.com/pilif0/process-diagram#readme
+bug-reports:    https://github.com/pilif0/process-diagram/issues
+author:         Filip Smola
+maintainer:     Filip Smola
+license:        Apache-2.0
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/pilif0/process-diagram
+
+library
+  exposed-modules:
+      ProcessComposition.Diagram.BoxAndWire
+      ProcessComposition.Diagram.DiagUtil
+      ProcessComposition.Diagram.PortedDiag
+      ProcessComposition.Diagram.ResUtil
+      ProcessComposition.Diagram.SyntaxTree
+  other-modules:
+      Paths_process_composition_diagram
+  hs-source-dirs:
+      src
+  build-depends:
+      SVGFonts >1.8 && <1.9
+    , base >=4.7 && <5
+    , colour
+    , containers
+    , diagrams-contrib ==1.4.*
+    , diagrams-core ==1.5.*
+    , diagrams-lib ==1.4.*
+    , diagrams-svg ==1.4.*
+    , process-composition
+  default-language: Haskell2010
+
+executable examples
+  main-is: Main.hs
+  other-modules:
+      Paths_process_composition_diagram
+  hs-source-dirs:
+      examples
+  build-depends:
+      base >=4.7 && <5
+    , diagrams-lib ==1.4.*
+    , diagrams-svg ==1.4.*
+    , process-composition
+    , process-composition-diagram
+  default-language: Haskell2010
