@@ -492,9 +492,10 @@ drawInject' dir a b = PD.PortedDiag iPorts diag oPorts
     output = arrColumn PPort.Out oPorts
     -- Centre is a triangle pointing right with label chosen by direction and
     -- large enough to accommodate the input wires (at least 1 unit tall)
-    tex = text' (textHeight / 2) label
+    vertHeight = max 1 (height inputs)
+    tex = text' (0.75 * vertHeight) label
     tri =
-      (rotateBy (-1/4) . triangle $ max 1 (height inputs))
+      (rotateBy (-1/4) . triangle $ vertHeight)
       # lw shapeLW
       # fc white
     -- Whole diagram puts input wires before triangle atop text and output wire
