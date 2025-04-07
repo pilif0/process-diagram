@@ -89,6 +89,10 @@ optSpacing = 1
 onceBoxSide :: N B
 onceBoxSide = 0.5
 
+-- | Gap between the top line of the Once box and rest of it
+onceBoxOpenness :: N B
+onceBoxOpenness = 0.25
+
 -- | Radius for the circle visualising Duplicate and Repeat
 dupCircRadius :: N B
 dupCircRadius = 0.25
@@ -400,7 +404,10 @@ drawOnce a b = PD.PortedDiag iPorts (hcat [input, procBox, outputs]) oPorts
     input = arrColumn PPort.In iPorts
     outputs = arrColumn PPort.Out oPorts
     -- The box is empty and has white background
-    procBox = rect onceBoxSide onceBoxSide # fc white # lw shapeLW
+    openBox side openness =
+      fromVertices (map p2 [(0, side), (0, 0), (side, 0), (side, side), (0, side + openness)])
+      # strokeLine # translate (r2 (side / 2, side / 2))
+    procBox = openBox onceBoxSide onceBoxOpenness # fc white # lw shapeLW
 
 -- | Draw a diagram for the duplication of a resource, visualising both the
 -- Duplicate action for copyable atoms and Repeat action for repeatable
