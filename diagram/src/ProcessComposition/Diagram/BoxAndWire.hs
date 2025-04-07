@@ -371,11 +371,14 @@ drawApply a b = PD.PortedDiag (iPorts ++ ePorts) diag oPorts
     exec = arrColumn PPort.In ePorts
     -- Centre shape: box with two bent inside wires and a label
     minHeight =
-      max (height inputs + 2 * wireColMargin)
-          (height outputs + 2 * wireColMargin)
+      max ( max (height inputs + 2 * wireColMargin)
+                (height outputs + 2 * wireColMargin))
+          (textHeight + 2 * textPadding) -- Minimum height of Primitive
+    label = text' (textHeight * 0.75) "Apply" # frame (textPadding / 2)
     applyInsideSide = minHeight / 2
-    minWidth = 2 * applyInsideSide + applyInsideGap
-    label = text' (textHeight / 2) "Apply" # frame (textPadding / 2)
+    minWidth =
+      max (2 * applyInsideSide + applyInsideGap)
+          (width label)
     bentWire d sweep = arrowFromLocatedTrail' pointyHead trailLocated
       where trail = arcT d sweep
             trailScaled = scale applyInsideSide trail
