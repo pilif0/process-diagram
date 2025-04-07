@@ -32,7 +32,10 @@ import           ProcessComposition.Diagram.ResUtil
 
 import           Diagrams.Backend.SVG
 import           Diagrams.Core.Types                      (keyVal)
+import           Diagrams.Direction                       (dir)
 import           Diagrams.Prelude
+import           Diagrams.TwoD.Arc                        (arcT)
+import           Diagrams.TwoD.Arrow                      (arrowFromLocatedTrail')
 
 import           Data.Typeable
 
@@ -112,6 +115,10 @@ optInRadius = 0.5
 -- | Spacing to use around the loop-forward wire in visualising Represent
 repLoopSpacing :: N B
 repLoopSpacing = 0.5
+
+-- | Gap to put between the inside bent wires when visualising Apply
+applyInsideGap :: N B
+applyInsideGap = 0.5
 
 -- | Space to leave between input and output in visualising Swap, allowing
 -- enough space for the diagonal lines to be legible
@@ -343,14 +350,53 @@ drawPrimitiveBasic :: R.Resource String String
                    -> PortedDiag
 drawPrimitiveBasic = drawPrimitiveCol white
 
--- | Draw a diagram for the executable resource Apply action by specialising
--- the primitive action diagram with the relevant input and output, the "Apply"
--- label and white background.
+-- | Draw a diagram for the executable resource Apply action as a box with two
+-- bent wires inside - from input down and from down to output - and a small
+-- label.
+-- The inside bent wires are to suggest relationship with Represent diagram.
+-- For the basic input and output use normal wires, but for the executable
+-- input bring the wire in from below.
 drawApply :: R.Resource String String
           -> R.Resource String String
           -> PortedDiag
-drawApply a b =
-  drawPrimitiveBasic (P.input (P.Apply a b)) (P.output (P.Apply a b)) "Apply" ()
+drawApply a b = PD.PortedDiag (iPorts ++ ePorts) diag oPorts
+  where
+    -- Ports for the basic input and output, and executable input
+    iPorts = resourceQPorts PPort.In a
+    oPorts = resourceQPorts PPort.Out b
+    ePorts = resourceQPorts PPort.In (R.executable a b)
+    -- Wire columns for those ports
+    inputs = arrColumn PPort.In iPorts
+    outputs = arrColumn PPort.Out oPorts
+    exec = arrColumn PPort.In ePorts
+    -- Centre shape: box with two bent inside wires and a label
+    minHeight =
+      max (height inputs + 2 * wireColMargin)
+          (height outputs + 2 * wireColMargin)
+    applyInsideSide = minHeight / 2
+    minWidth = 2 * applyInsideSide + applyInsideGap
+    label = text' (textHeight / 2) "Apply" # frame (textPadding / 2)
+    bentWire d sweep = arrowFromLocatedTrail' pointyHead trailLocated
+      where trail = arcT d sweep
+            trailScaled = scale applyInsideSide trail
+            trailLocated = trailScaled `at` P (applyInsideSide *^ fromDirection d)
+    inWire = bentWire yDir (-1/4 @@ turn)
+    outWire = bentWire (xDir # reflectX) (-1/4 @@ turn)
+    insideWires = hsep applyInsideGap [inWire, outWire] :: Diagram B
+    vGap = max (textPadding / 2) (minHeight - height label - height insideWires)
+    procBox =
+      box white shapeLW
+      minWidth minHeight
+      (vsep vGap [label # centerXY, insideWires # centerXY])
+    -- Attach basic input and output wires
+    diag' = hcat [inputs, procBox, outputs]
+    -- Build executable input wire, coming in from below
+    execSide = minWidth / 2
+    execBend = arc' execSide xDir (- 1/4 @@ turn) # alignB
+    execWire = hcat [exec, execBend]
+    -- Attach it from below
+    diag = vcat [diag', execWire]
+
 
 -- | Draw a diagram for identity, consisting of a column of points named with
 -- both the corresponding input and output port
@@ -391,7 +437,7 @@ drawSwap a b = PD.PortedDiag iPorts wires oPorts
     wires = foldr arrConnectNames spaced connections
 
 -- | Draw a diagram for the repeatable to executable resource conversion action
--- Once as a box with a wire coming in and out.
+-- Once as an open box with a wire coming in and out.
 drawOnce :: R.Resource String String
          -> R.Resource String String
          -> PortedDiag
