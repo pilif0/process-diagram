@@ -17,4 +17,4 @@ Simply run `stack build` in the root to gather all dependencies, build them and 
 ## Running
 
 This project includes a single executable called `examples`, which generates a number of basic examples into a directory.
-This can be run with `stack run example -- DIR` where `DIR` is the destination directory.
+This can be run with `stack run DIR` where `DIR` is the destination directory.
