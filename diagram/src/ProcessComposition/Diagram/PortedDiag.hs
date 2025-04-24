@@ -40,23 +40,14 @@ deriving instance (Ord a, Ord b) => Ord (RT.Res_term a b)
 deriving instance (Ord a, Ord b) => Ord (R.Resource a b)
 
 -- Process port sides
-instance Eq PPort.Process_side where {
-  a == b = PPort.equal_process_side a b;
-};
 deriving instance Typeable PPort.Process_side
 deriving instance Ord PPort.Process_side
 
 -- Ports
-instance (Eq a, Eq b) => Eq (Port.Port a b) where {
-  a == b = Port.equal_port a b;
-};
 deriving instance (Ord a, Ord b) => Ord (Port.Port a b)
 deriving instance (Typeable a, Typeable b) => Typeable (Port.Port a b)
 
 -- Process paths
-instance Eq PPaths.Process_inner where {
-  a == b = PPaths.equal_process_inner a b;
-};
 deriving instance Typeable PPaths.Process_inner
 deriving instance Ord PPaths.Process_inner
 

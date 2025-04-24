@@ -7,16 +7,16 @@ packages:
 - completed:
     name: process-composition
     pantry-tree:
-      sha256: dca6878831370829d2cf41825af4ef486b7b442e8fc9ecf086c6b8195e78804f
-      size: 1792
-    sha256: 9af5f39198f10adb0aecc71bd159325d06ced9198614fa494c005a5ea23a5264
-    size: 24283
+      sha256: 0129a78eae2108f64f022815d09df0eecc262f121de54f252a9fd13235399ab9
+      size: 3393
+    sha256: 3607e8f6f4395c295c27ea1b0ed72f89824e862d0e3be0a117b40f86400dda38
+    size: 32727
     subdir: haskell/isabelle
-    url: https://github.com/pilif0/codegen-ProcessComposition/archive/85599301d7401e382dccc9933b0fc8d6ae8e4643.tar.gz
+    url: https://github.com/pilif0/codegen-ProcessComposition/archive/d6e011a0900a1b540e76304debe01a42cd4092de.tar.gz
     version: 0.1.0.0
   original:
     subdir: haskell/isabelle
-    url: https://github.com/pilif0/codegen-ProcessComposition/archive/85599301d7401e382dccc9933b0fc8d6ae8e4643.tar.gz
+    url: https://github.com/pilif0/codegen-ProcessComposition/archive/d6e011a0900a1b540e76304debe01a42cd4092de.tar.gz
 snapshots:
 - completed:
     sha256: 08bd13ce621b41a8f5e51456b38d5b46d7783ce114a50ab604d6bbab0d002146

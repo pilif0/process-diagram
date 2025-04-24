@@ -5,6 +5,6 @@ packages:
 
 extra-deps:
   - github: pilif0/codegen-ProcessComposition
-    commit: '85599301d7401e382dccc9933b0fc8d6ae8e4643'
+    commit: 'd6e011a0900a1b540e76304debe01a42cd4092de'
     subdirs:
     - haskell/isabelle
